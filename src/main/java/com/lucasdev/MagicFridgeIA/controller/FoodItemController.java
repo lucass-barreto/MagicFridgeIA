@@ -4,11 +4,9 @@ import com.lucasdev.MagicFridgeIA.dto.FoodItemDTO;
 import com.lucasdev.MagicFridgeIA.service.FoodItemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/food")
@@ -20,41 +18,46 @@ public class FoodItemController {
         this.foodItemService = foodItemService;
     }
 
-
+    @PostMapping("/adicionar")
     public ResponseEntity<FoodItemDTO> registrarProduto (@RequestBody FoodItemDTO foodItemDTO){
         FoodItemDTO novoRegistroDTO = foodItemService.registrarProduto(foodItemDTO);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(novoRegistroDTO);
     }
 
+    @GetMapping("/")
     public ResponseEntity<List<FoodItemDTO>> listarRegistros(){
         List<FoodItemDTO> todosRegistrosDTO = foodItemService.listarRegistros();
         return ResponseEntity.ok(todosRegistrosDTO);
     }
 
-    public ResponseEntity<?> listarPorId(@PathVariable Long id){
-        FoodItemDTO itemEncontradoDTO = foodItemService.listarPorId(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
+        Optional<FoodItemDTO> itemEncontradoDTO = foodItemService.buscarPorId(id);
 
-        if(itemEncontradoDTO == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .build();
-        } return ResponseEntity.ok(itemEncontradoDTO);
+        if (itemEncontradoDTO.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(itemEncontradoDTO);
     }
 
+    @DeleteMapping("/deletar/{id}")
     public ResponseEntity<?> deletarPorId (@PathVariable Long id){
         if (foodItemService.deletarPorId(id)){
             return ResponseEntity.noContent()
                     .build();
-        } return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .build();
+        } return ResponseEntity.notFound().build();
     }
 
-    public ResponseEntity<FoodItemDTO> alterarItem(@PathVariable Long id, @RequestBody FoodItemDTO foodItemAtualizadoDTO){
-        FoodItemDTO itemAlteradoDTO = foodItemService.alterarItem(id,foodItemAtualizadoDTO);
+    @PutMapping("/alterar/{id}")
+    public ResponseEntity<FoodItemDTO> alterarItem(@PathVariable Long id, @RequestBody FoodItemDTO foodItemNovoDTO){
+        Optional<FoodItemDTO> itemEncontradoDTO = foodItemService.buscarPorId(id);
 
-        if (itemAlteradoDTO == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .build();
-        } return ResponseEntity.ok(itemAlteradoDTO);
+        if (itemEncontradoDTO.isEmpty()){
+            return ResponseEntity.notFound().build();
+        } else {
+            FoodItemDTO foodItemAtualizadoDTO = foodItemService.alterarItem(id, foodItemNovoDTO);
+            return ResponseEntity.ok(foodItemAtualizadoDTO);
+        }
     }
 }
