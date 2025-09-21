@@ -5,7 +5,6 @@ import com.lucasdev.MagicFridgeIA.dto.mapper.FoodItemMapper;
 import com.lucasdev.MagicFridgeIA.model.FoodItem;
 import com.lucasdev.MagicFridgeIA.repository.FoodItemRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,13 +32,14 @@ public class FoodItemService {
                 .collect(Collectors.toList());
     }
 
-    public FoodItemDTO listarPorId(Long id){
-        Optional<FoodItem> itemProcurado = foodItemRepository.findById(id);
+    public Optional<FoodItemDTO> buscarPorId(Long id){
+        Optional<FoodItem> itemProcuradoModel = foodItemRepository.findById(id);
 
-        if (itemProcurado.isPresent()){
-            FoodItem itemEncontrado = itemProcurado.get();
-            return foodItemMapper.map(itemEncontrado);
-        } return null;
+        if (itemProcuradoModel.isPresent()){
+            FoodItem itemEncontradoModel = itemProcuradoModel.get();
+            FoodItemDTO itemEncontradoDTO = foodItemMapper.map(itemEncontradoModel);
+            return Optional.of(itemEncontradoDTO);
+        } return Optional.empty();
     }
 
     public boolean deletarPorId(Long id){
@@ -52,19 +52,13 @@ public class FoodItemService {
     }
 
     public FoodItemDTO alterarItem (Long id, FoodItemDTO foodItemDTOAtualizado){
-        Optional<FoodItem> itemProcurado = foodItemRepository.findById(id);
+        Optional<FoodItem> foodItemProcuradoModel = foodItemRepository.findById(id);
 
-        if (itemProcurado.isPresent()){
-            FoodItem itemAtualizado = foodItemMapper.map(foodItemDTOAtualizado);
-            FoodItem itemEncontrado = itemProcurado.get();
+        if (foodItemProcuradoModel.isPresent()){
+            FoodItem foodItemAtualizadoModel = foodItemMapper.map(foodItemDTOAtualizado);
+            foodItemAtualizadoModel.setId(id);
 
-            itemEncontrado.setValidade(itemAtualizado.getValidade());
-            itemEncontrado.setQuantidade(itemAtualizado.getQuantidade());
-            itemEncontrado.setNome(itemAtualizado.getNome());
-            itemEncontrado.setCategoria(itemAtualizado.getCategoria());
-            FoodItem itemAlterado = foodItemRepository.save(itemEncontrado);
-
-            return foodItemMapper.map(itemAlterado);
+            return foodItemMapper.map(foodItemRepository.save(foodItemAtualizadoModel));
         } return null;
     }
 }
