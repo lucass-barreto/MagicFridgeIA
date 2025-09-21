@@ -16,10 +16,14 @@ public class FoodItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String nome;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Categoria categoria;
+    @Column(nullable = false)
     private Integer quantidade;
+    @Column(nullable = false)
     private LocalDate validade;
 
     public Long getId() {
