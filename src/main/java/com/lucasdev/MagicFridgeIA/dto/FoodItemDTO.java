@@ -4,7 +4,6 @@ import com.lucasdev.MagicFridgeIA.enums.Categoria;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 
 @Data
