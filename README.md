@@ -17,20 +17,20 @@ A aplicação conta com um dashboard moderno e funcional, que centraliza todas a
 #### **Dashboard Principal:** 
 *O painel centraliza o formulário de adição de ingredientes e a opção da geração de receita com IA.*
 
-![Dashboard da Aplicação](.github/assets/dashboard.png)
+![Dashboard da Aplicação](assets/dashboard.png)
 
 *Logo abaixo há uma lista com todos os itens adicionados e as opções de **deletar** e **editar** um item.*
-![Lista de itens](.github/assets/tabela-de-itens.png)
+![Lista de itens](assets/tabela-de-itens.png)
 
 #### **Página de Edição Dedicada:**
 *Uma interface limpa para a alteração de um ingrediente específico, garantindo uma experiência de usuário fluida.*
 
-![Página de Alteração de Item](.github/assets/alterar-item.png)
+![Página de Alteração de Item](assets/alterar-item.png)
 
 #### **Geração de Receitas com IA:**
 *Após adicionar os ingredientes, o usuário pode solicitar uma receita, que é exibida dinamicamente na mesma tela.*
 
-![Exemplo de Receita Gerada](.github/assets/gerador-de-receitas.png)
+![Exemplo de Receita Gerada](assets/gerador-de-receitas.png)
 
 ---
 
