@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+    <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>MagicFridgeIA</title>
+
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+            <style>
+                :root {
+                    --primary-color: #28a745;
+                    --secondary-color: #6c757d;
+                    --background-color: #f8f9fa;
+                    --text-color: #343a40;
+                    --card-bg-color: #ffffff;
+                    --border-color: #dee2e6;
+                }
+                body {
+                    font-family: 'Roboto', sans-serif;
+                    background-color: var(--background-color);
+                    color: var(--text-color);
+                    line-height: 1.6;
+                }
+
+                .container {
+                    max-width: 1400px;
+                    margin: 2rem auto;
+                    padding: 0 1rem;
+                }
+
+                header {
+                    text-align: center;
+                    margin-bottom: 3rem;
+                }
+
+                h1, h2 {
+                    color: var(--primary-color);
+                    font-weight: 700;
+                }
+
+                .main-content {
+                    display: flex;
+                    gap: 2rem;
+                    align-items: flex-start;
+                }
+
+                .left-column {
+                    flex: 2;
+                }
+
+                .right-column {
+                    flex: 1.5;
+                    position: sticky;
+                    top: 2rem;
+                }
+
+                .card {
+                    background-color: var(--card-bg-color);
+                    border: 1px solid var(--border-color);
+                    border-radius: 8px; padding: 1.5rem;
+                    margin-bottom: 2rem;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+                }
+
+                form label {
+                    display: block;
+                    margin-bottom: 0.5rem;
+                    font-weight: 700;
+                }
+
+                form input, form select {
+                    width: 100%;
+                    padding: 0.75rem;
+                    border: 1px solid var(--border-color);
+                    border-radius: 5px;
+                    margin-bottom: 1rem;
+                    box-sizing: border-box;
+                }
+
+                .btn {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.5rem;
+                    padding: 0.6rem 1.2rem;
+                    border: none;
+                    border-radius: 5px;
+                    color: white;
+                    cursor: pointer;
+                    font-weight: 700;
+                    text-decoration: none;
+                    font-size: 0.9rem;
+                }
+
+                .btn-primary {
+                    background-color: var(--primary-color);
+                }
+
+                .btn-primary:hover {
+                    background-color: #218838;
+                }
+
+                .btn-danger {
+                    background-color: #dc3545;
+                }
+
+                .btn-danger:hover {
+                    background-color: #c82333; }
+
+                .actions-cell {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    vertical-align: middle;
+                }
+                .actions-cell form {
+                    margin-bottom: 0;
+                }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                th, td {
+                    padding: 1rem;
+                    text-align: left;
+                    border-bottom: 1px solid var(--border-color);
+                }
+
+                thead {
+                    background-color: #e9ecef;
+                }
+
+                tbody tr:hover {
+                    background-color: #f1f1f1;
+                }
+
+                #recipe-response {
+                    background-color: var(--background-color);
+                    border: 1px solid var(--border-color);
+                    border-radius: 5px;
+                    padding: 1rem;
+                    min-height: 200px;
+                    white-space: pre-wrap;
+                    font-size: 0.9rem;
+                }
+
+                #recipe-placeholder {
+                    background-color: var(--background-color);
+                    border: 1px dashed var(--border-color);
+                    border-radius: 5px;
+                    padding: 1rem;
+                    min-height: 200px;
+                    font-size: 0.9rem;
+                    display: grid;
+                    place-items: center;
+                    text-align: center;
+                    color: var(--secondary-color);
+                }
+
+                @media (max-width: 992px) {
+                    .main-content {
+                        flex-direction: column;
+                    }
+                    .right-column {
+                        position: static;
+                    }
+                }
+
+            </style>
+        </head>
+        <body>
+
+            <div class="container">
+                <header>
+                    <h1><i class="fa-solid fa-utensils"></i> MagicFridgeIA</h1>
+                    <p>Adicione seus ingredientes e gere receitas incríveis com IA!</p>
+                </header>
+
+                <main class="main-content">
+                    <div class="left-column">
+
+                        <section class="card">
+                            <h2><i class="fa-solid fa-cart-plus"></i> Adicionar Novo Ingrediente</h2>
+                            <form th:action="@{/ui/food/adicionar}" th:object="${newItem}" method="post">
+                                <div>
+                                    <label for="nome">Nome do Ingrediente</label>
+                                    <input type="text" id="nome" th:field="*{nome}" placeholder="Ex: Tomate Cereja" required>
+                                </div>
+
+                                <div>
+                                    <label for="categoria">Categoria</label>
+                                    <select id="categoria" th:field="*{categoria}" required>
+                                        <option selected disabled value="">Selecione...</option>
+                                        <option th:each="cat : ${categorias}" th:value="${cat}" th:text="${cat}"></option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="quantidade">Quantidade</label>
+                                    <input type="number" id="quantidade" th:field="*{quantidade}" value="1" min="1" required>
+                                </div>
+
+                                <div>
+                                    <label for="validade">Data de Validade</label>
+                                    <input type="date" id="validade" th:field="*{validade}" required>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa-solid fa-plus"></i> Adicionar Ingrediente
+                                </button>
+                            </form>
+                        </section>
+
+                        <section class="card">
+                            <h2><i class="fa-solid fa-list-ul"></i> Ingredientes na Geladeira</h2>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Categoria</th>
+                                    <th>Qtd.</th>
+                                    <th>Validade</th>
+                                    <th>Ações</th> </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="item : ${items}">
+                                    <td th:text="${item.nome}">Leite Integral</td>
+                                    <td th:text="${item.categoria}">LATICINIOS</td>
+                                    <td th:text="${item.quantidade}">1</td>
+                                    <td th:text="${#temporals.format(item.validade, 'dd/MM/yyyy')}">2025-10-15</td>
+                                    <td class="actions-cell">
+                                        <a th:href="@{/ui/food/alterar/{id}(id=${item.id})}" class="btn btn-primary">
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </a>
+
+                                        <form th:action="@{/ui/food/deletar/{id}(id=${item.id})}" method="post">
+                                            <input type="hidden" name="_method" value="delete" />
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                    </div>
+
+                    <div class="right-column">
+                        <section class="card">
+                            <h2><i class="fa-solid fa-brain"></i> Gerador de Receitas</h2>
+                            <p>Clique no botão abaixo para que a IA crie uma receita com os ingredientes disponíveis.</p>
+                            <form th:action="@{/ui/recipe/generate}" method="get">
+                                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> Gerar Receita com IA
+                                </button>
+                            </form>
+
+                            <hr>
+
+                            <div th:if="${recipe != null and not #strings.isEmpty(recipe)}">
+                                <div id="recipe-response" th:text="${recipe}"></div>
+                            </div>
+                            <div th:if="${recipe == null or #strings.isEmpty(recipe)}">
+                                <div id="recipe-placeholder">
+                                    Sua receita gerada pela IA aparecerá aqui...
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </main>
+            </div>
+        </body>
+    </html>
