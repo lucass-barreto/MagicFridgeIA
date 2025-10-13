@@ -80,13 +80,14 @@ Durante o desenvolvimento, vários desafios foram superados, servindo como grand
     - HTML5
     - CSS3
 - **Banco de Dados:**
-    - H2 Database (In-Memory)
+    - PostgreSQL
     - Flyway (para versionamento de schema)
 - **Build & Dependências:**
     - Apache Maven
     - Lombok
     - MapStruct
-
+- **DevOps**
+    - Docker
 ---
 
 ## ⚙️ Instalação e Uso
