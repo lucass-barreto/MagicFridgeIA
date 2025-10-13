@@ -16,7 +16,6 @@ public class ChatGptService {
 
     private final WebClient webClient;
     private final FoodItemService foodItemService;
-
     @Value("${chatgpt.api.key}")
     private String chatGptApiKey;
 
