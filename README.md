@@ -2,6 +2,7 @@
 
 ![Java](https://img.shields.io/badge/Java-21-blue?logo=openjdk&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.5.5-green?logo=spring&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
 ![Maven](https://img.shields.io/badge/Maven-4.0-red?logo=apachemaven&logoColor=white)
 ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-3.1-green?logo=thymeleaf&logoColor=white)
 [![OpenAI API](https://img.shields.io/badge/OpenAI-API-10a37f?logo=openai&logoColor=white)](https://openai.com/api/)
