@@ -34,13 +34,13 @@ A aplicação conta com um dashboard moderno e funcional, que centraliza todas a
 
 ---
 
-### 📜 Descrição Completa
+## 📜 Descrição Completa
 
 **MagicFridgeIA** é uma solução criativa para um problema comum: o que cozinhar com o que se tem em casa? A aplicação permite o gerenciamento completo do inventário de uma geladeira, desde o cadastro de itens com suas respectivas categorias e validades até a exclusão e alteração dos mesmos.
 
 O grande diferencial do projeto é a sua integração com a **API da OpenAI**. O back-end consulta todos os ingredientes disponíveis no banco de dados, formata essa lista em um prompt otimizado e o envia para um modelo GPT. A resposta da IA, uma receita completa, é então exibida na interface.
 
-O projeto foi construído com uma clara separação de responsabilidades, utilizando controllers `@RestController` para uma potencial API JSON e um `@Controller` dedicado para a interface de usuário, renderizada no lado do servidor com **Thymeleaf**.
+O projeto foi construído com uma clara separação de responsabilidades, utilizando controllers `@RestController` para uma potencial API JSON e um `@Controller` dedicado para a interface de usuário, renderizada no lado do servidor com **Thymeleaf**. Para garantir a portabilidade e simplificar a configuração do ambiente, a aplicação foi totalmente containerizada com **Docker** e orquestrada com **Docker Compose**, permitindo que todo o sistema (aplicação + banco de dados PostgreSQL) seja executado de forma isolada e consistente com um único comando.
 
 ---
 
@@ -88,49 +88,46 @@ Durante o desenvolvimento, vários desafios foram superados, servindo como grand
 
 ---
 
-### ⚙️ Instalação e Uso
+## ⚙️ Instalação e Uso
 
-Para executar este projeto localmente, siga os passos abaixo:
+### 🐳 Rodando com Docker (Método Recomendado)
+Esta é a forma mais simples e rápida de executar o projeto, pois todo o ambiente (aplicação + banco de dados PostgreSQL) é gerenciado pelo Docker.
 
-**Pré-requisitos:**
+1.  **Pré-requisitos:**
+    * Docker e Docker Compose instalados.
+    * Uma chave de API da OpenAI.
 
-- Java (JDK) 17 ou superior instalado.
-- Apache Maven instalado.
-- Uma chave de API da OpenAI.
-
-**1. Clone o repositório:**
-```bash
-git clone [https://github.com/lucass-barreto/MagicFridgeIA.git](https://github.com/lucass-barreto/MagicFridgeIA.git)
-cd MagicFridgeIA
-```
-
-**2. Configure a Chave da API:**
-
-Crie um arquivo chamado `.env` na raiz do projeto e adicione a sua chave da OpenAI: 
-```bash
-API_KEY=sk-proj-sua-chave-secreta-aqui
-```
-
-*Lembre-se de adicionar o arquivo `.env` ao seu `.gitignore`!*
-
-**3. Build do Projeto:**
-
-Execute o comando Maven para construir o projeto.
-```bash
-./mvnw clean install
-```
-
-4.  **Execute a Aplicação:**
-    Inicie a aplicação através da sua IDE, executando a classe principal, ou via terminal:
+2.  **Clone o repositório:**
     ```bash
-    ./mvnw spring-boot:run
+    git clone [https://github.com/lucass-barreto/MagicFridgeIA.git](https://github.com/lucass-barreto/MagicFridgeIA.git)
+    cd MagicFridgeIA
     ```
+
+3.  **Configure as variáveis de ambiente:**
+    Na raiz do projeto, crie um arquivo `.env` a partir do `.env.example`. Este arquivo deve conter as credenciais do banco de dados e sua chave da API da OpenAI.
+    ```bash
+    cp .env.example .env
+    ```
+    *Em seguida, edite o arquivo `.env` e insira sua chave da API da OpenAI na variável `OPENIA_KEY`.*
+
+4.  **Suba o ambiente com Docker Compose:**
+    Este comando irá construir a imagem da aplicação e iniciar os containers em segundo plano.
+    ```bash
+    docker-compose up --build -d
+    ```
+
 5.  **Acesse a Aplicação:**
+    Após alguns instantes, a aplicação estará disponível no seu navegador:
     * **Interface Web (Dashboard):** [http://localhost:8080/ui/dashboard](http://localhost:8080/ui/dashboard)
-    * **API REST (Exemplos):**
-        * `GET http://localhost:8080/food/`
-        * `GET http://localhost:8080/recipe/generate`
-    * **Console do Banco H2:** [http://localhost:8080/h2-console](http://localhost:8080/h2-console) (Use as credenciais do `application.properties` se necessário).
+
+
+### 🐋 Imagem no Docker Hub
+Uma imagem pré-construída desta aplicação está disponível publicamente no Docker Hub. Você pode baixá-la diretamente com o comando:
+```bash
+docker pull lucassbarreto/magicfridge-app:0.0.1-RELEASE
+```
+
+**Para mais detalhes, visite o repositório no [Docker Hub](https://hub.docker.com/r/lucassbarreto/magicfridge-app).**
 
 ## 📫 Contato
 
